@@ -3,6 +3,11 @@ function detectDeviceType() {
 	const mobileRegex = /iphone|ipod|android.*mobile|blackberry|opera mini|windows phone|webos/i;
 	const tabletRegex = /ipad|android(?!.*mobile)|tablet|kindle|silk|playbook/i;
 
+	// iPad detection for iOS 13+ where it shows as 'macintosh'
+	if (/ipad|macintosh/.test(userAgent) && 'ontouchend' in document) {
+		return 'Tablet';
+  	}
+
 	if (mobileRegex.test(userAgent)) {
 		return "Mobile";
 	} else if (tabletRegex.test(userAgent)) {
