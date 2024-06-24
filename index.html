@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Device Detection</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				height: 100vh;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				font-size: 120%;
+				line-height: 1.8rem;
+				font-family: sans-serif;
+				background-color: #222;
+				color: #fafafa;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Device Information</h1>
+		<br />
+		<div class="device-container">
+			<div class="info-box">
+				<strong>Device Type:</strong>
+				<span id="deviceType"></span>
+			</div>
+			<div class="info-box">
+				<strong>Screen Size:</strong>
+				<span id="screenSize"></span>
+			</div>
+			<div class="info-box">
+				<strong>Pixel Ratio:</strong>
+				<span id="pixelRatio"></span>
+			</div>
+			<div class="info-box">
+				<strong>Orientation:</strong>
+				<span id="orientation"></span>
+			</div>
+		</div>
+		<script src="script.js"></script>
+	</body>
+</html>
