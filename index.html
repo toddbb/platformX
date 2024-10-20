@@ -1,50 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<title>Device Detection</title>
-		<style>
-			* {
-				box-sizing: border-box;
-				margin: 0;
-				padding: 0;
-			}
-			body {
-				height: 100vh;
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				justify-content: center;
-				font-size: 120%;
-				line-height: 1.8rem;
-				font-family: sans-serif;
-				background-color: #222;
-				color: #fafafa;
-			}
-		</style>
-	</head>
-	<body>
-		<h1>Device Information</h1>
-		<br />
-		<div class="device-container">
-			<div class="info-box">
-				<strong>Device Type:</strong>
-				<span id="deviceType"></span>
-			</div>
-			<div class="info-box">
-				<strong>Screen Size:</strong>
-				<span id="screenSize"></span>
-			</div>
-			<div class="info-box">
-				<strong>Pixel Ratio:</strong>
-				<span id="pixelRatio"></span>
-			</div>
-			<div class="info-box">
-				<strong>Orientation:</strong>
-				<span id="orientation"></span>
-			</div>
-		</div>
-		<script src="script.js"></script>
-	</body>
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Device Detection</title>
+      <link rel="stylesheet" href="style.css" />
+   </head>
+   <body>
+      <div class="header">
+         <h2>Device & Browser Compatibility</h2>
+      </div>
+      <div class="results-summary">
+         <h4 id="compatibility-summary"></h4>
+      </div>
+      <div class="results">
+         <table class="table-test-results">
+            <tbody>
+               <tr>
+                  <td class="col1">Device Type</td>
+                  <td class="col2" id="deviceType"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Browser</td>
+                  <td class="col2" id="browser"></td>
+               </tr>
+               <tr id="row-brand" class="nodisplay">
+                  <td class="col1">Brand</td>
+                  <td class="col2" id="brand"></td>
+               </tr>
+               <tr id="row-model" class="nodisplay">
+                  <td class="col1">Model</td>
+                  <td class="col2" id="model"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Screen Size</td>
+                  <td class="col2" id="screenSize"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Pixel Ratio</td>
+                  <td class="col2" id="pixelRatio"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Orientation</td>
+                  <td class="col2" id="orientation"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Microphone Permission</td>
+                  <td class="col2" id="mic-status"></td>
+               </tr>
+               <tr>
+                  <td class="col1">Pop-up Block Status</td>
+                  <td class="col2" id="global-popup-status"></td>
+               </tr>
+               <tr>
+                  <td class="col1">PDF Support</td>
+                  <td class="col2" id="pdf-status"></td>
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <script src="utilities.js"></script>
+      <script src="script.js"></script>
+   </body>
 </html>

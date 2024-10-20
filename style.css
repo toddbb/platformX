@@ -1,0 +1,93 @@
+/* Existing minimalistic styles */
+* {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   display: grid;
+   place-items: center;
+   grid-template-rows: 60px 50px auto;
+   padding: 20px;
+   line-height: 1.7rem;
+   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+      "Helvetica Neue", Arial, sans-serif;
+   background-color: #fff;
+   color: #333;
+}
+
+.results {
+   width: 80%;
+   max-width: 800px;
+}
+
+table.table-test-results {
+   width: 100%;
+   margin: 20px auto;
+   border-collapse: collapse;
+   border-radius: 12px;
+   overflow: hidden;
+   background-color: white;
+   box-shadow: 0 0 1px rgba(0, 0, 0, 0.1), 0 4px 6px rgba(0, 0, 0, 0.05),
+      0px 0px 6px rgba(0, 0, 0, 0.05);
+}
+
+table.table-test-results th,
+table.table-test-results td {
+   padding: 10px 20px;
+   text-align: left;
+   font-weight: 400;
+   border-bottom: 1px solid #eaeaea; /* Subtle border between rows */
+}
+
+table.table-test-results thead {
+   background-color: #f9f9f9;
+   font-weight: 600;
+}
+
+table.table-test-results th {
+   font-size: 16px;
+   text-transform: uppercase;
+   letter-spacing: 0.05em;
+   color: #444;
+}
+
+table.table-test-results td.col1 {
+   font-weight: 500;
+   color: #333;
+}
+
+table.table-test-results td.col2 {
+   color: #666;
+   font-weight: 400;
+}
+
+table.table-test-results tbody tr:hover {
+   background-color: #f4f4f4; /* Very subtle hover effect */
+   cursor: default;
+}
+
+/* Modified fail class to be less harsh */
+.fail {
+   color: #ffa500 !important; /* Softer warning color */
+}
+
+@media (max-width: 768px) {
+   .results {
+      width: 100%;
+   }
+
+   table.table-test-results th,
+   table.table-test-results td {
+      font-size: 14px;
+      padding: 12px;
+   }
+}
+
+/********************************************************************************/
+/*             OVERRIDE CLASSES                                                 */
+/********************************************************************************/
+.nodisplay {
+   display: none !important;
+}
