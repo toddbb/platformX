@@ -18,6 +18,7 @@ body {
 }
 
 .results {
+   display: block;
    width: 80%;
    max-width: 800px;
 }
