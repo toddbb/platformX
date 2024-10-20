@@ -301,8 +301,10 @@ function updateSummary() {
 
    summaryElement.textContent = isCompatible
       ? "Your device is compatible."
-      : "Your device may not be compatible. See the results below.";
+      : "Your device may not be compatible.";
    summaryElement.classList.toggle("fail", !isCompatible);
+
+   show(document.getElementsByClassName("results")[0]);
 }
 
 /************************
