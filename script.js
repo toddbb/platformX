@@ -10,7 +10,10 @@ const COMPATIBLE_STATUS = {
 // Global variable to hold test results
 var Compatible_TestResults = {
    deviceType: "",
-   browser: "Unknown",
+   browserName: "Unknown",
+   browserVersion: "Unknown",
+   osName: "Unknown",
+   osVersion: "Unknown",
    brand: "Unknown",
    model: "Unknown",
    screenSize: {
@@ -39,6 +42,16 @@ const Compatible_Criteria = {
       min: 1,
       max: 1.25,
    },
+   browser: ["Chrome", "Firefox", "Edge", "Safari", "Opera"],
+   browserVersion: {
+      Chrome: "100",
+      Safari: "90",
+   },
+   osName: ["iOS", "Windows"],
+   osVersion: {
+      iOS: "14.0",
+      Windows: "10",
+   },
 };
 
 // Centralized Tests for each condition
@@ -52,12 +65,42 @@ const Compatible_Tests = [
          ),
    },
    {
-      id: "browser",
-      value: () => Compatible_TestResults.browser,
+      id: "browserName",
+      value: () => Compatible_TestResults.browserName,
       pass: () =>
-         ["Chrome", "Firefox", "Edge", "Safari", "Opera"].includes(
-            Compatible_TestResults.browser
+         Compatible_Criteria.browser.includes(
+            Compatible_TestResults.browserName
          ),
+   },
+   {
+      id: "browserVersion",
+      value: () => Compatible_TestResults.browserVersion,
+      pass: () => {
+         let currentVersion = Number(Compatible_TestResults.browserVersion);
+         let compatibleVersion = Number(
+            Compatible_Criteria.browserVersion[
+               Compatible_TestResults.browserName /// need to consider if version is something like, "10.0.1"
+            ]
+         );
+         return currentVersion >= compatibleVersion;
+      },
+   },
+   {
+      id: "osName",
+      value: () => Compatible_TestResults.osName,
+      pass: () =>
+         Compatible_Criteria.osName.includes(Compatible_TestResults.osName),
+   },
+   {
+      id: "osVersion",
+      value: () => Compatible_TestResults.osVersion,
+      pass: () => {
+         let currentVersion = Number(Compatible_TestResults.osVersion);
+         let compatibleVersion = Number(
+            Compatible_Criteria.osVersion[Compatible_TestResults.osName] /// need to consider if version is something like, "10.0.1"
+         );
+         return currentVersion >= compatibleVersion;
+      },
    },
    {
       id: "screenSize",
@@ -166,6 +209,7 @@ function detectDeviceDetails() {
 function detectBrowser() {
    const userAgent = navigator.userAgent.toLowerCase();
    let browserName = "Unknown";
+   let browserVersion = "Unknown";
 
    if (
       userAgent.indexOf("chrome") > -1 &&
@@ -173,6 +217,7 @@ function detectBrowser() {
       userAgent.indexOf("opr") === -1
    ) {
       browserName = "Chrome";
+      browserVersion = userAgent.match(/chrome\/(\d+\.\d+)/)[1];
    } else if (
       userAgent.indexOf("safari") > -1 &&
       userAgent.indexOf("chrome") === -1
@@ -180,21 +225,58 @@ function detectBrowser() {
       browserName = "Safari";
    } else if (userAgent.indexOf("firefox") > -1) {
       browserName = "Firefox";
+      browserVersion = userAgent.match(/firefox\/(\d+\.\d+)/)[1];
    } else if (
       userAgent.indexOf("opr") > -1 ||
       userAgent.indexOf("opera") > -1
    ) {
       browserName = "Opera";
+      browserVersion = userAgent.match(/opera\/(\d+\.\d+)/)[1];
    } else if (userAgent.indexOf("edg") > -1) {
       browserName = "Edge";
+      browserVersion = userAgent.match(/edge\/(\d+\.\d+)/)[1];
    } else if (
       userAgent.indexOf("msie") > -1 ||
       userAgent.indexOf("trident") > -1
    ) {
       browserName = "Internet Explorer";
+      browserVersion = userAgent.match(/msie\/(\d+\.\d+)/)[1];
    }
 
-   return browserName;
+   return { browserName, browserVersion };
+}
+
+function getOSInfo() {
+   const userAgent = navigator.userAgent;
+   let os = "Unknown";
+   let version = "Unknown";
+
+   if (/Windows NT/.test(userAgent)) {
+      os = "Windows";
+      version = userAgent.match(/Windows NT (\d+\.\d+)/)
+         ? userAgent.match(/Windows NT (\d+\.\d+)/)[1]
+         : version;
+   } else if (/Mac OS X/.test(userAgent)) {
+      os = "MacOS";
+      version = userAgent.match(/Mac OS X (\d+_\d+(_\d+)?)/)
+         ? userAgent.match(/Mac OS X (\d+_\d+(_\d+)?)/)[1].replace(/_/g, ".")
+         : version;
+   } else if (/Android/.test(userAgent)) {
+      os = "Android";
+      version = userAgent.match(/Android (\d+\.\d+(\.\d+)?)/)
+         ? userAgent.match(/Android (\d+\.\d+(\.\d+)?)/)[1]
+         : version;
+   } else if (/iPhone OS|iPad OS/.test(userAgent)) {
+      os = "iOS";
+      version = userAgent.match(/OS (\d+_\d+(_\d+)?)/)
+         ? userAgent.match(/OS (\d+_\d+(_\d+)?)/)[1].replace(/_/g, ".")
+         : version;
+   } else if (/Linux/.test(userAgent)) {
+      os = "Linux";
+      // Linux doesn't typically include version info in userAgent
+   }
+
+   return { os, version };
 }
 
 function getScreenSize() {
@@ -320,7 +402,15 @@ function runDeviceDiagnostics() {
    Compatible_TestResults.model = deviceDetails.model;
 
    // Browser type
-   Compatible_TestResults.browser = detectBrowser();
+   const browserInfo = detectBrowser();
+   Compatible_TestResults.browserName = browserInfo.browserName;
+   Compatible_TestResults.browserVersion = browserInfo.browserVersion;
+
+   // OS info
+   const osInfo = getOSInfo();
+   console.log(osInfo);
+   Compatible_TestResults.osName = osInfo.os;
+   Compatible_TestResults.osVersion = osInfo.version;
 
    // Screen size and orientation
    const screenSize = getScreenSize();
@@ -332,7 +422,7 @@ function runDeviceDiagnostics() {
    // Orientation
    Compatible_TestResults.orientation = screenSize.orientation;
 
-   // Microphone permission
+   // Chain to get permissions: microphone -> popUp -> pdf
    navigator.permissions
       .query({ name: "microphone" })
       .then((permissionStatus) => {
