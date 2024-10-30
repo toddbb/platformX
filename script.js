@@ -44,13 +44,16 @@ const Compatible_Criteria = {
    },
    browser: ["Chrome", "Firefox", "Edge", "Safari", "Opera"],
    browserVersion: {
-      Chrome: "100",
-      Safari: "90",
+      Chrome: "103",
+      Safari: "14",
+      Edge: "90",
    },
    osName: ["iOS", "Windows"],
    osVersion: {
       iOS: "14.0",
+      Android: "13.0",
       Windows: "10",
+      MacOS: "11.0",
    },
 };
 
